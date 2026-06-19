@@ -1,0 +1,466 @@
+{
+  "es": {
+    "hola": {
+      "next_review": "2026-07-08T09:57:57.442432+00:00",
+      "ease_factor": 2.37,
+      "interval_days": 19.578,
+      "repetitions": 3,
+      "last_review": "2026-06-18T20:05:38.242432+00:00"
+    },
+    "buenos días": {
+      "next_review": "2026-06-20T03:16:34.003105+00:00",
+      "ease_factor": 2.65,
+      "interval_days": 1.3,
+      "repetitions": 1,
+      "last_review": "2026-06-18T20:04:34.003105+00:00"
+    },
+    "buenas tardes": {
+      "next_review": "2026-06-18T20:05:38.281677+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "buenas noches": {
+      "next_review": "2026-06-18T20:05:38.281692+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "adiós": {
+      "next_review": "2026-06-18T20:05:38.281695+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "hasta luego": {
+      "next_review": "2026-06-18T20:05:38.281697+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "por favor": {
+      "next_review": "2026-06-18T20:05:38.281700+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "gracias": {
+      "next_review": "2026-06-18T20:05:38.281703+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "de nada": {
+      "next_review": "2026-06-18T20:05:38.281705+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "lo siento": {
+      "next_review": "2026-06-18T20:05:38.281708+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "uno": {
+      "next_review": "2026-06-18T20:05:38.281711+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "dos": {
+      "next_review": "2026-06-18T20:05:38.281714+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "tres": {
+      "next_review": "2026-06-18T20:05:38.281717+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "cuatro": {
+      "next_review": "2026-06-18T20:05:38.281719+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "cinco": {
+      "next_review": "2026-06-18T20:05:38.281722+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "seis": {
+      "next_review": "2026-06-18T20:05:38.281725+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "siete": {
+      "next_review": "2026-06-18T20:05:38.281727+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "ocho": {
+      "next_review": "2026-06-18T20:05:38.281730+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "nueve": {
+      "next_review": "2026-06-18T20:05:38.281732+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "diez": {
+      "next_review": "2026-06-18T20:05:38.281735+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "rojo": {
+      "next_review": "2026-06-18T20:05:38.281738+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "azul": {
+      "next_review": "2026-06-18T20:05:38.281740+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "verde": {
+      "next_review": "2026-06-18T20:05:38.281744+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "amarillo": {
+      "next_review": "2026-06-18T20:05:38.281746+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "negro": {
+      "next_review": "2026-06-18T20:05:38.281749+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "blanco": {
+      "next_review": "2026-06-18T20:05:38.281751+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "naranja": {
+      "next_review": "2026-06-18T20:05:38.281754+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "gris": {
+      "next_review": "2026-06-18T20:05:38.281756+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "la madre": {
+      "next_review": "2026-06-18T20:05:38.281759+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "el padre": {
+      "next_review": "2026-06-18T20:05:38.281762+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "el hermano": {
+      "next_review": "2026-06-18T20:05:38.281764+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "la hermana": {
+      "next_review": "2026-06-18T20:05:38.281766+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "el hijo": {
+      "next_review": "2026-06-18T20:05:38.281769+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "la hija": {
+      "next_review": "2026-06-18T20:05:38.281771+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "el abuelo": {
+      "next_review": "2026-06-18T20:05:38.281774+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "la abuela": {
+      "next_review": "2026-06-18T20:05:38.281776+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "el agua": {
+      "next_review": "2026-06-20T13:13:18.282978+00:00",
+      "ease_factor": 2.65,
+      "interval_days": 1.3,
+      "repetitions": 1,
+      "last_review": "2026-06-19T06:01:18.282978+00:00"
+    },
+    "el pan": {
+      "next_review": "2026-06-19T06:11:36.238428+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0.0069,
+      "repetitions": 0,
+      "last_review": "2026-06-19T06:01:36.238428+00:00"
+    },
+    "la leche": {
+      "next_review": "2026-06-20T06:01:43.487704+00:00",
+      "ease_factor": 2.36,
+      "interval_days": 1,
+      "repetitions": 1,
+      "last_review": "2026-06-19T06:01:43.487704+00:00"
+    },
+    "el café": {
+      "next_review": "2026-06-20T13:13:48.640176+00:00",
+      "ease_factor": 2.65,
+      "interval_days": 1.3,
+      "repetitions": 1,
+      "last_review": "2026-06-19T06:01:48.640176+00:00"
+    },
+    "la manzana": {
+      "next_review": "2026-06-19T06:11:58.966544+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0.0069,
+      "repetitions": 0,
+      "last_review": "2026-06-19T06:01:58.966544+00:00"
+    },
+    "el arroz": {
+      "next_review": "2026-06-19T06:12:04.198579+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0.0069,
+      "repetitions": 0,
+      "last_review": "2026-06-19T06:02:04.198579+00:00"
+    },
+    "el pescado": {
+      "next_review": "2026-06-19T06:12:12.876086+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0.0069,
+      "repetitions": 0,
+      "last_review": "2026-06-19T06:02:12.876086+00:00"
+    },
+    "la carne": {
+      "next_review": "2026-06-20T06:02:22.505474+00:00",
+      "ease_factor": 2.36,
+      "interval_days": 1,
+      "repetitions": 1,
+      "last_review": "2026-06-19T06:02:22.505474+00:00"
+    },
+    "la ensalada": {
+      "next_review": "2026-06-19T06:12:31.927005+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0.0069,
+      "repetitions": 0,
+      "last_review": "2026-06-19T06:02:31.927005+00:00"
+    },
+    "el huevo": {
+      "next_review": "2026-06-19T06:12:37.014254+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0.0069,
+      "repetitions": 0,
+      "last_review": "2026-06-19T06:02:37.014254+00:00"
+    },
+    "ser": {
+      "next_review": "2026-06-18T20:05:38.281838+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "estar": {
+      "next_review": "2026-06-18T20:05:38.281841+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "tener": {
+      "next_review": "2026-06-18T20:05:38.281844+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "hacer": {
+      "next_review": "2026-06-18T20:05:38.281846+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "ir": {
+      "next_review": "2026-06-18T20:05:38.281849+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "comer": {
+      "next_review": "2026-06-18T20:05:38.281852+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "beber": {
+      "next_review": "2026-06-18T20:05:38.281855+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "hablar": {
+      "next_review": "2026-06-18T20:05:38.281858+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "dormir": {
+      "next_review": "2026-06-18T20:05:38.281860+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "trabajar": {
+      "next_review": "2026-06-18T20:05:38.281863+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "estudiar": {
+      "next_review": "2026-06-18T20:05:38.281866+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "vivir": {
+      "next_review": "2026-06-18T20:05:38.281869+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "grande": {
+      "next_review": "2026-06-18T20:05:38.281871+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "pequeño": {
+      "next_review": "2026-06-18T20:05:38.281873+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "bueno": {
+      "next_review": "2026-06-18T20:05:38.281876+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "malo": {
+      "next_review": "2026-06-18T20:05:38.281879+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "bonito": {
+      "next_review": "2026-06-18T20:05:38.281881+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "nuevo": {
+      "next_review": "2026-06-18T20:05:38.281884+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "viejo": {
+      "next_review": "2026-06-18T20:05:38.281887+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    },
+    "caro": {
+      "next_review": "2026-06-18T20:05:38.281889+00:00",
+      "ease_factor": 2.5,
+      "interval_days": 0,
+      "repetitions": 0,
+      "last_review": null
+    }
+  }
+}

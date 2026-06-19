@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 Vokabel-Trainer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                   Helvetica, Arial, sans-serif;
+    }
+
+    /* ── Flip card ── */
+    .card-perspective { perspective: 1200px; }
+
+    .card-inner {
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .card-inner.flipped { transform: rotateY(180deg); }
+
+    /* card-front stays in normal flow → defines card-inner height */
+    .card-front {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      min-height: 280px;
+    }
+    /* card-back fills the same space absolutely */
+    .card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform: rotateY(180deg);
+    }
+
+    /* ── Slide animations ── */
+    @keyframes slideOutLeft {
+      from { transform: translateX(0);     opacity: 1; }
+      to   { transform: translateX(-110%); opacity: 0; }
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(110%);  opacity: 0; }
+      to   { transform: translateX(0);     opacity: 1; }
+    }
+    .anim-out { animation: slideOutLeft 0.25s ease-in  forwards; }
+    .anim-in  { animation: slideInRight  0.25s ease-out forwards; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- ════════════════════════════════════════
+       HEADER – sticky
+  ════════════════════════════════════════ -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+    <div class="max-w-lg mx-auto px-4 pt-3 pb-2">
+
+      <!-- Title + language buttons -->
+      <div class="flex items-center justify-between mb-2">
+        <h1 class="text-lg font-bold text-gray-800">📚 Vokabel-Trainer</h1>
+        <div class="flex gap-1">
+          <button id="btn-es" onclick="setLang('es')"
+            class="px-3 py-2 rounded-lg text-sm font-medium min-h-[44px]
+                   flex items-center transition-colors">
+            🇪🇸 Spanisch
+          </button>
+          <button id="btn-tr" onclick="setLang('tr')"
+            class="px-3 py-2 rounded-lg text-sm font-medium min-h-[44px]
+                   flex items-center transition-colors">
+            🇹🇷 Türkisch
+          </button>
+        </div>
+      </div>
+
+      <!-- Category filter + shuffle -->
+      <div class="flex gap-2">
+        <select id="cat-select" onchange="setCategory(this.value)"
+          class="flex-1 px-3 border border-gray-300 rounded-lg text-sm
+                 bg-white min-h-[44px]">
+          <option value="all">Alle Kategorien</option>
+        </select>
+        <button onclick="doShuffle()" title="Mischen"
+          class="px-4 bg-gray-100 hover:bg-gray-200 active:bg-gray-300
+                 rounded-lg text-base min-h-[44px] min-w-[44px] transition-colors">
+          🔀
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════
+       STATS BAR
+  ════════════════════════════════════════ -->
+  <div class="bg-blue-50 border-b border-blue-100">
+    <div class="max-w-lg mx-auto px-4 py-2 text-center">
+      <p id="stats-text" class="text-sm text-blue-700">📊 Lädt…</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       MODE TABS
+  ════════════════════════════════════════ -->
+  <div class="max-w-lg mx-auto px-4 pt-4">
+    <div class="flex bg-gray-100 rounded-xl p-1 gap-1">
+      <button id="tab-due" onclick="setMode('due')"
+        class="flex-1 py-2 rounded-lg text-sm font-medium min-h-[44px] transition-colors">
+        📅 Fällig
+      </button>
+      <button id="tab-all" onclick="setMode('all')"
+        class="flex-1 py-2 rounded-lg text-sm font-medium min-h-[44px] transition-colors">
+        📋 Alle Karten
+      </button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       MAIN
+  ════════════════════════════════════════ -->
+  <main class="max-w-lg mx-auto px-4 py-4 pb-24">
+
+    <!-- Loading -->
+    <div id="view-loading" style="display:none"
+      class="flex flex-col items-center justify-center py-16 text-gray-400">
+      <p class="text-5xl mb-3">⏳</p>
+      <p class="text-base">Lädt…</p>
+    </div>
+
+    <!-- Empty state: no due cards -->
+    <div id="view-empty" style="display:none">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+        <p class="text-6xl mb-4">🎉</p>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Alles gelernt!</h2>
+        <p class="text-gray-500 mb-1">Keine fälligen Karten.</p>
+        <p id="next-due-text" class="text-sm text-gray-400 mb-6"></p>
+        <button onclick="setMode('all')"
+          class="w-full py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800
+                 text-white rounded-xl font-semibold text-base min-h-[44px] transition-colors">
+          ➕ Neue Karten lernen
+        </button>
+      </div>
+    </div>
+
+    <!-- No cards in this filter -->
+    <div id="view-none" style="display:none">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+        <p class="text-4xl mb-3">📭</p>
+        <p class="text-gray-500">Keine Karten in dieser Kategorie</p>
+      </div>
+    </div>
+
+    <!-- ── Card view ── -->
+    <div id="view-card" style="display:none">
+
+      <!-- Position + category badge -->
+      <div class="flex items-center justify-between mb-3">
+        <span id="pos-label" class="text-sm text-gray-500">Karte 1 von 12</span>
+        <span id="cat-badge"
+          class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium"></span>
+      </div>
+
+      <!-- Flip card -->
+      <div class="card-perspective w-full mb-4">
+        <div id="card-inner" class="card-inner">
+
+          <!-- Front: target-language word -->
+          <div class="card-front bg-white rounded-xl shadow-sm border border-gray-200
+                      flex flex-col items-center justify-center p-8 text-center select-none">
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-5">
+              Tippen zum Umdrehen
+            </p>
+            <p id="front-word"
+              class="text-4xl font-bold text-gray-800 mb-4 leading-tight
+                     break-words max-w-full"></p>
+            <span id="front-cat"
+              class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm"></span>
+          </div>
+
+          <!-- Back: German translation -->
+          <div class="card-back bg-white rounded-xl shadow-sm border border-blue-200
+                      flex flex-col items-center justify-center p-8 text-center select-none">
+            <p class="text-xs text-gray-400 uppercase tracking-widest mb-5">
+              Übersetzung
+            </p>
+            <p id="back-translation"
+              class="text-4xl font-bold text-blue-700 mb-3 leading-tight
+                     break-words max-w-full"></p>
+            <p id="back-word" class="text-lg text-gray-500 mb-3"></p>
+            <span id="back-cat"
+              class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm"></span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Rating buttons (due mode, shown after flip) -->
+      <div id="rating-btns" style="display:none" class="grid grid-cols-2 gap-2 mb-4">
+        <button onclick="rate(0)"
+          class="py-3 px-3 bg-red-100 text-red-700 rounded-xl font-medium text-sm
+                 min-h-[44px] hover:bg-red-200 active:bg-red-300 transition-colors">
+          🔁 Wiederholen
+        </button>
+        <button onclick="rate(2)"
+          class="py-3 px-3 bg-orange-100 text-orange-700 rounded-xl font-medium text-sm
+                 min-h-[44px] hover:bg-orange-200 active:bg-orange-300 transition-colors">
+          😰 Schwer
+        </button>
+        <button onclick="rate(3)"
+          class="py-3 px-3 bg-green-100 text-green-700 rounded-xl font-medium text-sm
+                 min-h-[44px] hover:bg-green-200 active:bg-green-300 transition-colors">
+          👍 Gut
+        </button>
+        <button onclick="rate(5)"
+          class="py-3 px-3 bg-blue-100 text-blue-700 rounded-xl font-medium text-sm
+                 min-h-[44px] hover:bg-blue-200 active:bg-blue-300 transition-colors">
+          🚀 Leicht
+        </button>
+      </div>
+
+      <!-- Nav buttons (all-cards mode) -->
+      <div id="nav-btns" style="display:none" class="flex gap-2 mb-4">
+        <button onclick="prevCard()"
+          class="flex-1 py-3 bg-white border border-gray-200 rounded-xl text-gray-700
+                 font-medium text-sm min-h-[44px] hover:bg-gray-50 active:bg-gray-100
+                 transition-colors">
+          ◀ Zurück
+        </button>
+        <button onclick="nextCard()"
+          class="flex-1 py-3 bg-white border border-gray-200 rounded-xl text-gray-700
+                 font-medium text-sm min-h-[44px] hover:bg-gray-50 active:bg-gray-100
+                 transition-colors">
+          Überspringen ▶
+        </button>
+      </div>
+
+    </div><!-- /view-card -->
+  </main>
+
+  <!-- ════════════════════════════════════════
+       FOOTER – fixed
+  ════════════════════════════════════════ -->
+  <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-10">
+    <div class="max-w-lg mx-auto px-4 py-2 flex items-center justify-center gap-6">
+      <a href="/static/a1-es.apkg"
+        class="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700
+               min-h-[44px] px-2">
+        📥 Spanisch-Deck
+      </a>
+      <span class="text-gray-200 select-none">|</span>
+      <a href="/static/a1-tr.apkg"
+        class="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700
+               min-h-[44px] px-2">
+        📥 Türkisch-Deck
+      </a>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════
+       JAVASCRIPT
+  ════════════════════════════════════════ -->
+  <script>
+  // ──────────────────────────────────────────
+  // State — single source of truth
+  // ──────────────────────────────────────────
+  const st = {
+    lang:     'es',
+    mode:     'due',   // 'due' | 'all'
+    category: 'all',
+    cards:    [],      // current display queue
+    idx:      0,
+    flipped:  false,
+    stats:    null,    // {due_count, new_count, reviewed_count, total_count, next_due}
+    busy:     false,   // blocks re-entrant clicks
+  };
+
+  // ──────────────────────────────────────────
+  // API
+  // ──────────────────────────────────────────
+  async function apiGet(url) {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`HTTP ${r.status} ${r.statusText}`);
+    return r.json();
+  }
+
+  async function apiPost(url, body) {
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status} ${r.statusText}`);
+    return r.json();
+  }
+
+  const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+  // ──────────────────────────────────────────
+  // Load
+  // ──────────────────────────────────────────
+  async function loadCategories() {
+    try {
+      const cats = await apiGet(`/api/categories?lang=${st.lang}`);
+      const sel  = document.getElementById('cat-select');
+      const prev = sel.value;
+      sel.innerHTML = '<option value="all">Alle Kategorien</option>';
+      cats.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c;
+        o.textContent = c;
+        sel.appendChild(o);
+      });
+      // Restore previous selection when it's still valid
+      if (cats.includes(prev)) {
+        sel.value   = prev;
+        st.category = prev;
+      } else {
+        sel.value   = 'all';
+        st.category = 'all';
+      }
+    } catch (e) {
+      console.error('loadCategories:', e);
+    }
+  }
+
+  async function loadCards() {
+    showView('loading');
+    try {
+      if (st.mode === 'due') {
+        // /api/due returns { due: [...], new_cards: [...], stats: {...} }
+        const data = await apiGet(
+          `/api/due?lang=${st.lang}&category=${encodeURIComponent(st.category)}`
+        );
+        st.cards = data.due   || [];
+        st.stats = data.stats || null;
+      } else {
+        // Load vocab and due-stats in parallel
+        const [vocab, dueData] = await Promise.all([
+          apiGet(`/api/vocab?lang=${st.lang}&category=${encodeURIComponent(st.category)}`),
+          apiGet(`/api/due?lang=${st.lang}&category=${encodeURIComponent(st.category)}`),
+        ]);
+        st.cards = Array.isArray(vocab) ? vocab : [];
+        st.stats = (dueData && dueData.stats) || null;
+      }
+      st.idx     = 0;
+      st.flipped = false;
+    } catch (e) {
+      console.error('loadCards:', e);
+      alert('Fehler beim Laden der Karten:\n' + e.message);
+      st.cards = [];
+    }
+    renderAll();
+  }
+
+  // ──────────────────────────────────────────
+  // Actions
+  // ──────────────────────────────────────────
+  async function setLang(lang) {
+    if (st.busy || st.lang === lang) return;
+    st.lang     = lang;
+    st.category = 'all';
+    await loadCategories();
+    await loadCards();
+  }
+
+  async function setMode(mode) {
+    if (st.busy) return;
+    st.mode    = mode;
+    st.idx     = 0;
+    st.flipped = false;
+    await loadCards();
+  }
+
+  async function setCategory(cat) {
+    if (st.busy) return;
+    st.category = cat;
+    st.idx      = 0;
+    st.flipped  = false;
+    await loadCards();
+  }
+
+  function doShuffle() {
+    if (st.busy || st.cards.length < 2) return;
+    for (let i = st.cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [st.cards[i], st.cards[j]] = [st.cards[j], st.cards[i]];
+    }
+    st.idx     = 0;
+    st.flipped = false;
+    renderCard();
+  }
+
+  function flipCard() {
+    if (st.busy || st.cards.length === 0) return;
+    st.flipped = !st.flipped;
+    document.getElementById('card-inner').classList.toggle('flipped', st.flipped);
+    if (st.mode === 'due') {
+      document.getElementById('rating-btns').style.display =
+        st.flipped ? 'grid' : 'none';
+    }
+  }
+
+  async function rate(rating) {
+    if (st.busy || st.cards.length === 0) return;
+    st.busy = true;
+
+    const card = st.cards[st.idx];
+    try {
+      await apiPost('/api/progress', { lang: st.lang, word: card.word, rating });
+    } catch (e) {
+      alert('Fehler beim Speichern:\n' + e.message);
+      st.busy = false;
+      return;
+    }
+
+    // Slide card out
+    const inner = document.getElementById('card-inner');
+    inner.classList.add('anim-out');
+    await sleep(250);
+    inner.classList.remove('anim-out', 'flipped');
+
+    // Remove this card from the queue
+    st.cards.splice(st.idx, 1);
+    if (st.idx >= st.cards.length && st.idx > 0) st.idx = st.cards.length - 1;
+
+    // Optimistic stats update
+    if (st.stats) {
+      st.stats.due_count      = Math.max(0, (st.stats.due_count      || 1) - 1);
+      st.stats.reviewed_count = (st.stats.reviewed_count || 0) + 1;
+    }
+
+    st.flipped = false;
+    st.busy    = false;
+    renderAll();
+  }
+
+  function nextCard() {
+    if (st.busy || st.cards.length === 0) return;
+    st.idx     = (st.idx + 1) % st.cards.length;
+    st.flipped = false;
+    renderCard();
+  }
+
+  function prevCard() {
+    if (st.busy || st.cards.length === 0) return;
+    st.idx     = (st.idx - 1 + st.cards.length) % st.cards.length;
+    st.flipped = false;
+    renderCard();
+  }
+
+  // ──────────────────────────────────────────
+  // Render
+  // ──────────────────────────────────────────
+
+  function showView(name) {
+    ['loading', 'empty', 'none', 'card'].forEach(v => {
+      document.getElementById('view-' + v).style.display = 'none';
+    });
+    const el = document.getElementById('view-' + name);
+    el.style.display = (name === 'loading') ? 'flex' : 'block';
+  }
+
+  function renderAll() {
+    renderHeader();
+    renderStats();
+    if (st.cards.length === 0) {
+      if (st.mode === 'due') {
+        showView('empty');
+        renderNextDue();
+      } else {
+        showView('none');
+      }
+    } else {
+      showView('card');
+      renderCard();
+    }
+  }
+
+  function renderHeader() {
+    const active   = 'bg-blue-600 text-white';
+    const inactive = 'bg-gray-100 text-gray-700 hover:bg-gray-200';
+    const base     = 'px-3 py-2 rounded-lg text-sm font-medium min-h-[44px] flex items-center transition-colors';
+
+    document.getElementById('btn-es').className =
+      `${base} ${st.lang === 'es' ? active : inactive}`;
+    document.getElementById('btn-tr').className =
+      `${base} ${st.lang === 'tr' ? active : inactive}`;
+
+    const tBase     = 'flex-1 py-2 rounded-lg text-sm font-medium min-h-[44px] transition-colors';
+    const tActive   = 'bg-white text-blue-600 shadow-sm';
+    const tInactive = 'text-gray-600 hover:text-gray-800';
+
+    document.getElementById('tab-due').className =
+      `${tBase} ${st.mode === 'due' ? tActive : tInactive}`;
+    document.getElementById('tab-all').className =
+      `${tBase} ${st.mode === 'all' ? tActive : tInactive}`;
+  }
+
+  function renderStats() {
+    const s = st.stats;
+    let text;
+    if (s) {
+      const due  = s.due_count      ?? 0;
+      const newc = s.new_count      ?? 0;
+      const rev  = s.reviewed_count ?? 0;
+      text = `📊 ${due} fällig · ${newc} neu · ${rev} gelernt`;
+    } else {
+      text = `📊 ${st.cards.length} Karten`;
+    }
+    document.getElementById('stats-text').textContent = text;
+  }
+
+  function renderCard() {
+    if (st.cards.length === 0) return;
+    const card = st.cards[st.idx];
+
+    // Sync flip state
+    document.getElementById('card-inner').classList.toggle('flipped', st.flipped);
+
+    // Fill text content
+    document.getElementById('front-word').textContent       = card.word;
+    document.getElementById('back-translation').textContent = card.translation;
+    document.getElementById('back-word').textContent        = card.word;
+    const cat = card.category || '';
+    document.getElementById('front-cat').textContent = cat;
+    document.getElementById('back-cat').textContent  = cat;
+    document.getElementById('cat-badge').textContent = cat;
+
+    // Position counter
+    document.getElementById('pos-label').textContent =
+      `Karte ${st.idx + 1} von ${st.cards.length}`;
+
+    // Show the right controls
+    document.getElementById('rating-btns').style.display =
+      (st.mode === 'due' && st.flipped) ? 'grid' : 'none';
+    document.getElementById('nav-btns').style.display =
+      st.mode === 'all' ? 'flex' : 'none';
+
+    // Slide-in animation
+    const inner = document.getElementById('card-inner');
+    inner.classList.add('anim-in');
+    setTimeout(() => inner.classList.remove('anim-in'), 300);
+  }
+
+  function renderNextDue() {
+    const el = document.getElementById('next-due-text');
+    const nd = st.stats && st.stats.next_due;
+    if (!nd) {
+      el.textContent = 'Starte mit "Neue Karten lernen" um Vokabeln zu entdecken.';
+      return;
+    }
+    const diffMs = new Date(nd) - new Date();
+    if (diffMs <= 0) {
+      el.textContent = 'Nächste Karten sind gleich fällig.';
+      return;
+    }
+    const min = Math.round(diffMs / 60000);
+    if (min < 60) {
+      el.textContent = `Nächste Wiederholung: in ${min} Minute${min === 1 ? '' : 'n'}`;
+    } else if (min < 1440) {
+      const h = Math.round(min / 60);
+      el.textContent = `Nächste Wiederholung: in ${h} Stunde${h === 1 ? '' : 'n'}`;
+    } else {
+      const d = Math.round(min / 1440);
+      el.textContent = `Nächste Wiederholung: in ${d} Tag${d === 1 ? '' : 'en'}`;
+    }
+  }
+
+  // ──────────────────────────────────────────
+  // Bootstrap
+  // ──────────────────────────────────────────
+  document.getElementById('card-inner').addEventListener('click', flipCard);
+
+  (async function init() {
+    renderHeader();
+    showView('loading');
+    await loadCategories();
+    await loadCards();
+  })();
+  </script>
+
+</body>
+</html>
